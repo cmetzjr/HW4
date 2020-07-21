@@ -46,7 +46,7 @@ $(document).ready(function () {
             correctAnswer: "4. console.log"
         }
     ]
-    console.log(questions);
+
 
     //
     //60-sec countdown timer
@@ -62,6 +62,7 @@ $(document).ready(function () {
         timer--;
     };
 
+
     //
     //quiz section
     //
@@ -71,7 +72,6 @@ $(document).ready(function () {
     var startBtn = $("#start-btn");
     var questionArea = $("#question-area");
 
-
     //when the start button is clicked, hide the start area, display the question area, and start the countdown
     startBtn.click(function () {
         startArea.hide();
@@ -79,47 +79,34 @@ $(document).ready(function () {
         setInterval(countdown, 1000);
     });
 
-    // variable to iterate through objects in array
+    //set html and values from the array whose index == qIndex
     var qIndex = 0;
 
-    //set html and values from the array whose index == qIndex
-    function nextQuestion() {
-        // i trief to make this a function but the buttons didn't show up
-        var q = $("<p>").text(questions[qIndex].question).addClass("mt-4 font-weight-bold").attr("id", "question-text");
-        var a1 = $("<button>").text(questions[qIndex].answer1).addClass("btn btn-quiz d-block mt-1 answer-btn").attr("type", "button");
-        var a2 = $("<button>").text(questions[qIndex].answer2).addClass("btn btn-quiz d-block mt-1 answer-btn").attr("type", "button");
-        var a3 = $("<button>").text(questions[qIndex].answer3).addClass("btn btn-quiz d-block mt-1 answer-btn").attr("type", "button");
-        var a4 = $("<button>").text(questions[qIndex].answer4).addClass("btn btn-quiz d-block mt-1 answer-btn").attr("type", "button");
-
+    function nextQuestion(index) {
+        questionArea.html('')
+        var q = $("<p>").text(questions[index].question).addClass("mt-4 font-weight-bold").attr("id", "question-text");
+        var a1 = $("<button>").text(questions[index].answer1).addClass("btn btn-quiz d-block mt-1 answer-btn").attr("type", "button");
+        var a2 = $("<button>").text(questions[index].answer2).addClass("btn btn-quiz d-block mt-1 answer-btn").attr("type", "button");
+        var a3 = $("<button>").text(questions[index].answer3).addClass("btn btn-quiz d-block mt-1 answer-btn").attr("type", "button");
+        var a4 = $("<button>").text(questions[index].answer4).addClass("btn btn-quiz d-block mt-1 answer-btn").attr("type", "button");
         questionArea.append(q, a1, a2, a3, a4);
+
+        var answerBtn = $(".answer-btn");
+
+        answerBtn.on("click", function () {
+            if ($(this).text() !== questions[index].correctAnswer) {
+                timer = timer - 5;
+            } else {
+                qIndex++;
+            }
+            nextQuestion(index + 1)
+        });
+
+
     }
 
-    //use this class for the event listener
-    var answerBtn = $(".answer-btn");
-
-    answerBtn.click(function () {
-        if (answerBtn.text() !== questions[qIndex].correctAnswer) {
-            //something here is wrong, as it doesn't recognize ANY correct answer
-            timer = timer - 5;
-        } else {
-            qIndex++;
-        }
-        nextQuestion()
-        //I'm stuck here - qIndex increments, but doesn't display the next question in the array
-
-    });
-
-
-
-
-
-
-
-
-
-
-
-
+    //call the function to start cycling through the questions
+    nextQuestion(qIndex)
 
 
     //close ready method
