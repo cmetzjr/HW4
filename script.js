@@ -100,18 +100,8 @@ $(document).ready(function () {
 
 
 
-
-        // questionText.text(questions[i].question);
-        // answerBtn1.text(questions[i].answer1);
-        // answerBtn2.text(questions[i].answer2);
-        // answerBtn3.text(questions[i].answer3);
-        // answerBtn4.text(questions[i].answer4);
-
-
         //check if the button clicked is === correctAnswer; if yes, move to the next object in the array, else decrement time by 5000ms
-        // if (correc) {
-
-        // }
+        // 
 
 
 
