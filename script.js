@@ -51,26 +51,38 @@ $(document).ready(function () {
     //
     //60-sec countdown timer
     //
-    var displayTimeLeft = $("#display-time-left");
-    var timer = 60;
+    const displayTimeLeft = $("#display-time-left");
+    var timer = 59;
 
     function countdown() {
         if (timer <= 0) {
-            clearInterval(timer = 0)
+            clearInterval(timer = 0); //this was stopping the timer but now it's not
         }
         displayTimeLeft.text(timer);
         timer--;
     };
 
+    //function to end the game
+    const allDone = $("#all-done");
+    var finalScore = displayTimeLeft;
+
+    function endGame() {
+        //hide questionArea 
+        questionArea.addClass("d-none");
+        //display the allDone
+        allDone.removeClass("d-none");
+        //write the finalScore to the page --> to complete
+        //finalScore.text();
+    }
 
     //
     //quiz section
     //
 
     //grab the page sections
-    var startArea = $("#start-area");
-    var startBtn = $("#start-btn");
-    var questionArea = $("#question-area");
+    const startArea = $("#start-area");
+    const startBtn = $("#start-btn");
+    const questionArea = $("#question-area");
 
     //when the start button is clicked, hide the start area, display the question area, and start the countdown
     startBtn.click(function () {
@@ -92,34 +104,37 @@ $(document).ready(function () {
         var a4 = $("<button>").text(questions[index].answer4).addClass("btn btn-quiz d-block mt-1 answer-btn").attr("type", "button");
         questionArea.append(q, a1, a2, a3, a4);
 
-        var answerBtn = $(".answer-btn");
 
-        //increment to get the next object in the array
+        //someone clicks on answer.Btn
+        //check if text matches the correct answer
+        //wrong answer reduce time, right answer do nothing
+        //check if it's at the end of the array, if so, end game
+        //else increment the index
+        const answerBtn = $(".answer-btn");
+
         answerBtn.on("click", function () {
             if ($(this).text() !== questions[index].correctAnswer) {
                 timer = timer - 5;
+            }
+
+            if (qIndex > questions.length - 1) {
+                endGame();
             } else {
                 qIndex++;
             }
-            nextQuestion(index + 1)
+
+            nextQuestion(index + 1);
 
             console.log(index);
         });
 
 
 
-        //when the last question is answered:
+
+        //when the last question is answered, stop the game:
+        //doesn't get to the last question becuase console.log is showing an errorat the last object in the array
         if (index >= questions.length) {
-            //stop timer
-            var finalScore = clearInterval(timer);
-
-            //display final score in #final-score span
-            $("final-score").text(finalScore);
-
-            //display the "all done" text
-            var allDone = $("#all-done");
-            questionArea.addClass("d-none");
-            allDone.removeClass("d-none");
+            endGame();
         }
 
 
