@@ -42,8 +42,8 @@ $(document).ready(function () {
             answer1: "1. JavaScript",
             answer2: "2. terminal/bash",
             answer3: "3. for loops",
-            answer4: "4. console.log",
-            correctAnswer: "4. console.log"
+            answer4: "4. console log",
+            correctAnswer: "4. console log"
         }
     ]
 
@@ -79,10 +79,11 @@ $(document).ready(function () {
         setInterval(countdown, 1000);
     });
 
-    //set html and values from the array whose index == qIndex
+    //set html and values from the array "questions" whose index == qIndex
     var qIndex = 0;
 
     function nextQuestion(index) {
+        //display the html to the page
         questionArea.html('')
         var q = $("<p>").text(questions[index].question).addClass("mt-4 font-weight-bold").attr("id", "question-text");
         var a1 = $("<button>").text(questions[index].answer1).addClass("btn btn-quiz d-block mt-1 answer-btn").attr("type", "button");
@@ -93,6 +94,7 @@ $(document).ready(function () {
 
         var answerBtn = $(".answer-btn");
 
+        //increment to get the next object in the array
         answerBtn.on("click", function () {
             if ($(this).text() !== questions[index].correctAnswer) {
                 timer = timer - 5;
@@ -100,7 +102,26 @@ $(document).ready(function () {
                 qIndex++;
             }
             nextQuestion(index + 1)
+
+            console.log(index);
         });
+
+
+
+        //when the last question is answered:
+        if (index >= questions.length) {
+            //stop timer
+            var finalScore = clearInterval(timer);
+
+            //display final score in #final-score span
+            $("final-score").text(finalScore);
+
+            //display the "all done" text
+            var allDone = $("#all-done");
+            questionArea.addClass("d-none");
+            allDone.removeClass("d-none");
+        }
+
 
 
     }

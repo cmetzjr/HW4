@@ -34,6 +34,16 @@
             <!-- empty div, initially hidden, shown when clicked; js will add a paragraph for the question and 4 buttons for answers -->
             <div id="question-area" class="text-left d-none">
             </div>
+
+            <!-- empty div, initially hidden, shown when the last question is answered -->
+            <div id="all-done" class="text-left d-none">
+                <h1>All done!</h1>
+                <p>Your final score is <span id="final-score"></span>.</p>
+                <p>Enter initials:
+                    <input type="text" width="10" name="initials"> <Button id="initials" type="button"
+                        class="btn btn-quiz">Submit</Button>
+                </p>
+            </div>
         </div>
     </main>
     <script src="script.js"></script>
