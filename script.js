@@ -53,10 +53,11 @@ $(document).ready(function () {
     //
     const displayTimeLeft = $("#display-time-left");
     var timer = 59;
+    var timerInterval;
 
     function countdown() {
         if (timer <= 0) {
-            clearInterval(timer = 0); //this was stopping the timer but now it's not
+            clearInterval(timerInterval); //clearInterval takes the fcn that set the interval
         }
         displayTimeLeft.text(timer);
         timer--;
@@ -88,7 +89,7 @@ $(document).ready(function () {
     startBtn.click(function () {
         startArea.hide();
         questionArea.removeClass("d-none");
-        setInterval(countdown, 1000);
+        timerInterval = setInterval(countdown, 1000);
     });
 
     //set html and values from the array "questions" whose index == qIndex
@@ -117,13 +118,14 @@ $(document).ready(function () {
                 timer = timer - 5;
             }
 
-            if (qIndex > questions.length - 1) {
+            if (qIndex == questions.length - 1) {
                 endGame();
             } else {
                 qIndex++;
+                nextQuestion(qIndex);
             }
 
-            nextQuestion(index + 1);
+
 
             console.log(index);
         });
